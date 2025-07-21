@@ -1,0 +1,59 @@
+/* Full‑screen hero with background image */
+.hero {
+  position: relative;
+  height: 100vh;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Dark overlay so the text pops */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Put content above the overlay */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  padding: 0 1.5rem;
+  color: #fff;
+}
+
+/* Main headline */
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+/* Supporting text */
+.hero-subtitle {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+/* Call‑to‑action button */
+.hero-btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  background:  #1a2f5c;          /* company accent colour */
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s ease;
+}
+
+.hero-btn:hover {
+  background: #a51616;
+}

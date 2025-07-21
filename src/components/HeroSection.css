@@ -1,0 +1,68 @@
+.hero-carousel-wrapper {
+  position: relative;
+  height: 90vh;
+  overflow: hidden;
+}
+
+.carousel-bg {
+  height: 90vh;
+  background-size: cover;
+  background-position: center;
+  transition: transform 6s ease;
+}
+
+.zoom {
+  animation: zoomEffect 10s infinite ease-in-out;
+}
+
+@keyframes zoomEffect {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.hero-overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  z-index: 10;
+  text-shadow: 1px 1px 4px #000;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  max-width: 800px;
+  margin: auto;
+  color: white;
+  line-height: 1.6;
+}
+
+.hero-btn {
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.hero-btn:hover {
+  background-color: #0056b3;
+}

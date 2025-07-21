@@ -1,0 +1,54 @@
+HomePage.css
+
+.hero {
+  background-color: #1a2f5c;
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 700px;
+  margin: auto;
+}
+
+.services {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.services ul {
+  list-style: none;
+  padding: 0;
+}
+
+.services li {
+  margin: 10px 0;
+}
+
+.why {
+  background-color: #f0f0f0;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.contact-cta {
+  background-color: #c0392b;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #c0392b;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.btn:hover {
+  background-color: #a93226;
+}

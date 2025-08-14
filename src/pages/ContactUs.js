@@ -1,6 +1,7 @@
-import React from "react";
-import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Col, Form, Button, Card, Alert, Spinner } from "react-bootstrap";
 import { FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
+import api from '../Api/Api'; // Import the centralized API service
 
 function SocialLinks() {
   return (
@@ -37,6 +38,63 @@ function SocialLinks() {
 }
 
 function ContactUs() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [showConsultationMessage, setShowConsultationMessage] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccessMessage('');
+    setShowConsultationMessage(false); // Clear any consultation message
+
+    try {
+      // ✅ Use api.contact_messages.create from the centralized API service
+      const res = await api.contact_messages.create(formData);
+
+      if (res.success) {
+        setSuccessMessage(res.data.message || 'Your message has been sent successfully!');
+        // Clear the form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        });
+      } else {
+        setError(res.error.message || 'Failed to send message. Please try again.');
+      }
+    } catch (err) {
+      console.error('Contact form submission error:', err);
+      setError('An unexpected error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleScheduleConsultation = () => {
+    setSuccessMessage('');
+    setError('');
+    setShowConsultationMessage(true);
+    // In a real app, you'd likely redirect to a scheduling page or open a booking widget
+  };
+
   return (
     <Container className="py-5 contact-page">
       <h1 className="text-center text-primary mb-4">Contact Us</h1>
@@ -46,20 +104,49 @@ function ContactUs() {
           <Card className="p-4 shadow-sm">
             <Card.Body>
               <Card.Title className="mb-4 text-primary">Send a Message</Card.Title>
-              <Form>
+              
+              {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
+              {successMessage && <Alert variant="success" className="mb-4">{successMessage}</Alert>}
+              {showConsultationMessage && (
+                <Alert variant="info" className="mb-4">
+                  Thank you for your interest! We'll be in touch shortly to schedule your consultation.
+                </Alert>
+              )}
+
+              <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formName">
                   <Form.Label>Full Name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter your name" required />
+                  <Form.Control 
+                    type="text" 
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Enter your name" 
+                    required 
+                  />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formEmail">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter your email" required />
+                  <Form.Control 
+                    type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter your email" 
+                    required 
+                  />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formSubject">
                   <Form.Label>Subject</Form.Label>
-                  <Form.Control type="text" placeholder="Subject" />
+                  <Form.Control 
+                    type="text" 
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    placeholder="Subject" 
+                  />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formMessage">
@@ -67,13 +154,27 @@ function ContactUs() {
                   <Form.Control
                     as="textarea"
                     rows={5}
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder="Write your message here..."
                     required
                   />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className="w-100">
-                  Send Message
+                <Button variant="primary" type="submit" className="w-100" disabled={loading}>
+                  {loading ? (
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      className="me-2"
+                    />
+                  ) : (
+                    'Send Message'
+                  )}
                 </Button>
               </Form>
 
@@ -81,7 +182,7 @@ function ContactUs() {
               <Button
                 variant="success"
                 className="mt-4 w-100"
-                onClick={() => alert("Thank you for scheduling a consultation!")}
+                onClick={handleScheduleConsultation}
               >
                 Schedule a Security Consultation
               </Button>

@@ -1,0 +1,262 @@
+/* auth.css */
+
+.auth-page-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f8fa;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.auth-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.auth-modal,
+.auth-page-content {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  position: relative;
+}
+
+.auth-header h2 {
+  margin-bottom: 24px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222;
+  text-align: center;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+/* Form */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.with-icon .input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-wrapper input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px #007bffaa;
+}
+
+.input-icon {
+  position: absolute;
+  left: 10px;
+  color: #999;
+  pointer-events: none;
+}
+
+/* Password group */
+.password-group {
+  position: relative;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding: 10px 40px 10px 36px;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.password-input-wrapper input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px #007bffaa;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle:hover {
+  color: #007bff;
+}
+
+/* Buttons */
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+  font-weight: 700;
+  padding: 12px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.submit-btn:disabled {
+  background-color: #a0c4ff;
+  cursor: not-allowed;
+}
+
+/* OTP Resend */
+.resend-otp {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.resend-otp button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.resend-otp button:hover:not(:disabled) {
+  color: #0056b3;
+}
+
+.resend-otp button:disabled {
+  color: #a0c4ff;
+  cursor: not-allowed;
+}
+
+/* Footer Links */
+.auth-footer {
+  margin-top: 22px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #555;
+}
+
+.auth-footer p {
+  margin: 8px 0;
+}
+
+.auth-footer button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.auth-footer button:hover {
+  color: #0056b3;
+}
+
+/* MessageBox (assumed usage) */
+.message-box {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.message-box.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1.5px solid #c3e6cb;
+}
+
+.message-box.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1.5px solid #f5c6cb;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .auth-modal,
+  .auth-page-content {
+    padding: 20px 25px;
+    max-width: 100%;
+    margin: 0 10px;
+  }
+}

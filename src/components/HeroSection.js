@@ -1,5 +1,7 @@
 import React from 'react';
 import './HeroSection.css';
+import { Link } from 'react-router-dom';
+
 import { Container, Row, Col, Card, Carousel } from 'react-bootstrap';
 
 // Import all images from src/assets
@@ -18,17 +20,36 @@ function Hero() {
 
       {/* HERO CAROUSEL WITH OVERLAYED TEXT */}
       <div className="hero-carousel-wrapper">
-        <Carousel fade controls={false} indicators={false} interval={4000}>
-          <Carousel.Item>
-            <div className="carousel-bg zoom" style={{ backgroundImage: `url(${slide1})` }}></div>
-          </Carousel.Item>
-          <Carousel.Item>
-            <div className="carousel-bg zoom" style={{ backgroundImage: `url(${slide2})` }}></div>
-          </Carousel.Item>
-          <Carousel.Item>
-            <div className="carousel-bg zoom" style={{ backgroundImage: `url(${slide3})` }}></div>
-          </Carousel.Item>
-        </Carousel>
+       <Carousel fade controls={false} indicators={false} interval={4000}>
+  <Carousel.Item>
+    <div className="carousel-bg zoom" style={{ backgroundImage: `url(${slide1})` }}>
+      <div className="carousel-caption">
+        <h2>24/7 Elite Guarding</h2>
+        <p>Your safety is our top priority</p>
+      </div>
+    </div>
+  </Carousel.Item>
+
+  <Carousel.Item>
+    <div className="carousel-bg zoom" style={{ backgroundImage: `url(${slide2})` }}>
+      <div className="carousel-caption">
+        <h2>Secure Every Event</h2>
+        <p>From VIP gatherings to public festivals</p>
+      </div>
+    </div>
+  </Carousel.Item>
+
+  <Carousel.Item>
+    <div className="carousel-bg zoom" style={{ backgroundImage: `url(${slide3})` }}>
+      <div className="carousel-caption">
+        <h2>Fast Response Teams</h2>
+        <p>Rapid deployment for any emergency</p>
+      </div>
+    </div>
+  </Carousel.Item>
+  
+</Carousel>
+
 
         {/* OVERLAY TEXT */}
         <div className="hero-overlay-content text-center">
@@ -36,7 +57,9 @@ function Hero() {
           <p className="hero-subtitle">
             GKO Security delivers top-tier security solutions, tailored for East Africa.
           </p>
-          <a href="/about" className="hero-btn">Learn More About Us</a>
+          <Link to="/about" className="hero-btn btn btn-primary">
+              Learn More About Us
+      </Link>
         </div>
       </div>
 

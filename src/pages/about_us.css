@@ -58,5 +58,9 @@
 .hover-card:hover {
   transform: scale(1.03);
   box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.15);
-  background-color: #f8f9fa; /* Optional: light background on hover */
+  background-color: #f8f9fa; 
+}
+
+.rounded-full {
+  border-radius: 50%;
 }

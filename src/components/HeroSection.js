@@ -1,65 +1,77 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './HeroSection.css';
 import { Link } from 'react-router-dom';
-
 import { Container, Row, Col, Card, Carousel } from 'react-bootstrap';
-
-// Import all images from src/assets
-import slide1 from '../assets/person.jpg';
-import slide2 from '../assets/event.jpg';
-import slide3 from '../assets/gaurd2.webp';
+// Import images from src/assets
+import personImg from '../assets/person.jpg';
+import eventImg from '../assets/event.jpg';
 import guardImg from '../assets/gaurd2.webp';
 import cctvImg from '../assets/cctv.jpeg';
 import fireImg from '../assets/alarm.jpeg';
-import eventImg from '../assets/event.jpg';
-import personImg from '../assets/person.jpg';
+
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+// Map filenames to imports
+const imageMap = {
+  'person.jpg': personImg,
+  'event.jpg': eventImg,
+  'gaurd2.webp': guardImg,
+  'cctv.jpeg': cctvImg,
+  'alarm.jpeg': fireImg
+};
 
 function Hero() {
+  const [homeData, setHomeData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/api/v1/home`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setHomeData(data.data);
+        } else {
+          setError(data.message || 'Failed to load homepage data');
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p className="text-center mt-5">Loading homepage...</p>;
+  if (error) return <p className="text-center mt-5 text-danger">{error}</p>;
+
   return (
     <section className="hero-section">
-
-      {/* HERO CAROUSEL WITH OVERLAYED TEXT */}
+      {/* HERO CAROUSEL */}
       <div className="hero-carousel-wrapper">
-       <Carousel fade controls={false} indicators={false} interval={4000}>
-  <Carousel.Item>
-    <div className="carousel-bg zoom" style={{ backgroundImage: `url(${slide1})` }}>
-      <div className="carousel-caption">
-        <h2>24/7 Elite Guarding</h2>
-        <p>Your safety is our top priority</p>
-      </div>
-    </div>
-  </Carousel.Item>
+        <Carousel fade controls={false} indicators={false} interval={4000}>
+          {homeData.carousel_slides.map((slide, index) => (
+            <Carousel.Item key={index}>
+              <div
+                className="carousel-bg zoom"
+                style={{ backgroundImage: `url(${imageMap[slide.image]})` }}
+              >
+                <div className="carousel-caption">
+                  <h2>{slide.title}</h2>
+                  <p>{slide.subtitle}</p>
+                </div>
+              </div>
+            </Carousel.Item>
+          ))}
+        </Carousel>
 
-  <Carousel.Item>
-    <div className="carousel-bg zoom" style={{ backgroundImage: `url(${slide2})` }}>
-      <div className="carousel-caption">
-        <h2>Secure Every Event</h2>
-        <p>From VIP gatherings to public festivals</p>
-      </div>
-    </div>
-  </Carousel.Item>
-
-  <Carousel.Item>
-    <div className="carousel-bg zoom" style={{ backgroundImage: `url(${slide3})` }}>
-      <div className="carousel-caption">
-        <h2>Fast Response Teams</h2>
-        <p>Rapid deployment for any emergency</p>
-      </div>
-    </div>
-  </Carousel.Item>
-  
-</Carousel>
-
-
-        {/* OVERLAY TEXT */}
         <div className="hero-overlay-content text-center">
           <h1 className="hero-title display-3">Trusted Protection. Proven Performance.</h1>
           <p className="hero-subtitle">
             GKO Security delivers top-tier security solutions, tailored for East Africa.
           </p>
           <Link to="/about" className="hero-btn btn btn-primary">
-              Learn More About Us
-      </Link>
+            Learn More About Us
+          </Link>
         </div>
       </div>
 
@@ -68,72 +80,17 @@ function Hero() {
         <Container>
           <h2 className="text-center mb-4 text-primary">Our Security Services</h2>
           <Row className="g-4 text-center">
-            <Col md={4}>
-              <Card className="h-100 service-card">
-                <Card.Img variant="top" src={guardImg} alt="Guard Services" />
-                <Card.Body>
-                  <Card.Title>Guard Services</Card.Title>
-                  <Card.Text>
-                    Professional, uniformed guards for businesses, homes, and events.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="h-100 service-card">
-                <Card.Img variant="top" src={cctvImg} alt="CCTV Installation" />
-                <Card.Body>
-                  <Card.Title>CCTV Installation</Card.Title>
-                  <Card.Text>
-                    Reliable and secure surveillance solutions to monitor your property 24/7.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="h-100 service-card">
-                <Card.Img variant="top" src={fireImg} alt="Fire Extinguishers" />
-                <Card.Body>
-                  <Card.Title>Fire Extinguisher Installation</Card.Title>
-                  <Card.Text>
-                    Certified fire safety solutions for offices, homes, and institutions.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="h-100 service-card">
-                <Card.Img variant="top" src={eventImg} alt="Event Security" />
-                <Card.Body>
-                  <Card.Title>Event Security</Card.Title>
-                  <Card.Text>
-                    Trained personnel to secure corporate, private, and public events.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="h-100 service-card">
-                <Card.Img variant="top" src={personImg} alt="Security Patrols" />
-                <Card.Body>
-                  <Card.Title>Security Patrols</Card.Title>
-                  <Card.Text>
-                    Regular mobile patrol services to ensure perimeter safety and quick response.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="h-100 service-card">
-                <Card.Img variant="top" src={personImg} alt="Access Control" />
-                <Card.Body>
-                  <Card.Title>Access Control Systems</Card.Title>
-                  <Card.Text>
-                    Modern electronic systems to regulate access to your facilities.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
+            {homeData.services.map((service, index) => (
+              <Col md={4} key={index}>
+                <Card className="h-100 service-card">
+                  <Card.Img variant="top" src={imageMap[service.image]} alt={service.title} />
+                  <Card.Body>
+                    <Card.Title>{service.title}</Card.Title>
+                    <Card.Text>{service.description}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
           </Row>
         </Container>
       </section>
@@ -143,26 +100,16 @@ function Hero() {
         <Container>
           <h2 className="text-center mb-4 text-primary">What Our Clients Say</h2>
           <Row className="g-4">
-            <Col md={6}>
-              <Card className="testimonial-card p-3 shadow-sm">
-                <Card.Body>
-                  <Card.Text>
-                    "The GKO team provided excellent security for our annual conference. They were alert, courteous, and well-equipped."
-                  </Card.Text>
-                  <Card.Footer className="text-muted text-end">– Brenda N., Events Coordinator</Card.Footer>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={6}>
-              <Card className="testimonial-card p-3 shadow-sm">
-                <Card.Body>
-                  <Card.Text>
-                    "We feel confident leaving our premises in the hands of GKO. Their patrol team is dependable and responsive."
-                  </Card.Text>
-                  <Card.Footer className="text-muted text-end">– Michael O., Business Owner</Card.Footer>
-                </Card.Body>
-              </Card>
-            </Col>
+            {homeData.testimonials.map((testimonial, index) => (
+              <Col md={6} key={index}>
+                <Card className="testimonial-card p-3 shadow-sm">
+                  <Card.Body>
+                    <Card.Text>"{testimonial.text}"</Card.Text>
+                    <Card.Footer className="text-muted text-end">– {testimonial.author}</Card.Footer>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
           </Row>
         </Container>
       </section>
@@ -171,3 +118,6 @@ function Hero() {
 }
 
 export default Hero;
+
+
+

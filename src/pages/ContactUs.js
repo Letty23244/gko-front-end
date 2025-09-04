@@ -65,7 +65,7 @@ function ContactUs() {
     setShowConsultationMessage(false); // Clear any consultation message
 
     try {
-      // ✅ Use api.contact_messages.create from the centralized API service
+     
       const res = await api.contact_messages.create(formData);
 
       if (res.success) {

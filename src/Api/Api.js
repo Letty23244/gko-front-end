@@ -1,18 +1,10 @@
+
 import axios from 'axios';
 
 const tokenManager = {
   getToken: () => {
     try {
-      const token = localStorage.getItem('accessToken'); // Use 'accessToken' as per your components
-      const lastUpdated = localStorage.getItem('jwt_token_last_updated'); // This might not be strictly needed if refresh logic handles expiry
-      if (token && lastUpdated) {
-        const age = Date.now() - parseInt(lastUpdated, 10);
-        // Consider if you want to clear token based on a fixed age or rely solely on 401/refresh
-        if (age > 24 * 60 * 60 * 1000) { // Example: clear after 24 hours if not refreshed
-          // tokenManager.clearToken(); // This might cause aggressive logouts if refresh isn't instant
-          // return null;
-        }
-      }
+      const token = localStorage.getItem('accessToken');
       return token || null;
     } catch (error) {
       console.error('Token access error:', error);
@@ -21,17 +13,16 @@ const tokenManager = {
   },
   setToken: (token) => {
     try {
-      localStorage.setItem('accessToken', token); // Use 'accessToken'
-      localStorage.setItem('jwt_token_last_updated', Date.now().toString());
+      localStorage.setItem('accessToken', token);
     } catch (error) {
       console.error('Token storage error:', error);
     }
   },
   clearToken: () => {
     try {
-      localStorage.removeItem('accessToken'); // Use 'accessToken'
-      localStorage.removeItem('refreshToken'); // Also clear refresh token
-      localStorage.removeItem('userRole'); // Clear user role
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('userRole');
       localStorage.removeItem('jwt_token_last_updated');
     } catch (error) {
       console.error('Token clearance error:', error);
@@ -39,7 +30,7 @@ const tokenManager = {
   }
 };
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000/api/v1';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 class ApiError extends Error {
   constructor(message, type = 'API_ERROR', status = null, isNetworkError = false) {
@@ -58,7 +49,6 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
     'x-client-version': '1.0.0',
   },
-  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
@@ -88,8 +78,6 @@ axiosInstance.interceptors.response.use(
       apiError.responseData = error.response.data;
       if (error.response.status === 401) {
         tokenManager.clearToken();
-        // Optionally, force a reload to trigger re-authentication if not handled by router
-        // window.location.reload();
       }
       return Promise.reject(apiError);
     }
@@ -109,37 +97,36 @@ const handleApiCall = async (apiCall, maxRetries = 3) => {
       const response = await apiCall();
       return { success: true, data: response.data };
     } catch (err) {
-      // If it's a network error and not the last attempt, retry
       if (attempt < maxRetries && err.isNetworkError) {
         await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, attempt - 1)));
       } else {
-        // If it's the last attempt or not a network error, propagate the error
         return { success: false, error: err };
       }
     }
   }
-  // Should theoretically not be reached if maxRetries > 0
   return { success: false, error: new ApiError('Unknown error after retries', 'UNKNOWN_ERROR', null, true) };
 };
 
 const api = {
+  // New, dedicated service for authentication
+  auth: {
+    login: (data) => handleApiCall(() => axiosInstance.post('/auth/login', data)),
+  },
+  // Existing services
   admin: {
     getAll: () => handleApiCall(() => axiosInstance.get('/admins')),
     getById: (id) => handleApiCall(() => axiosInstance.get(`/admins/${id}`)),
     create: (data) => handleApiCall(() => axiosInstance.post('/admins/register', data)),
     update: (id, data) => handleApiCall(() => axiosInstance.put(`/admins/${id}`, data)),
     delete: (id) => handleApiCall(() => axiosInstance.delete(`/admins/${id}`)),
-    login: (data) => handleApiCall(() => axiosInstance.post('/auth/login', data)), // Corrected endpoint for AdminManagement
   },
-
   client: {
     getAll: () => handleApiCall(() => axiosInstance.get('/clients')),
     getById: (id) => handleApiCall(() => axiosInstance.get(`/clients/${id}`)),
-    create: (data) => handleApiCall(() => axiosInstance.post('/clients/register', data)), // ✅ Corrected endpoint
+    create: (data) => handleApiCall(() => axiosInstance.post('/clients/register', data)),
     update: (id, data) => handleApiCall(() => axiosInstance.put(`/clients/${id}`, data)),
     delete: (id) => handleApiCall(() => axiosInstance.delete(`/clients/${id}`)),
   },
-
   guard: {
     getAll: () => handleApiCall(() => axiosInstance.get('/guards')),
     getById: (id) => handleApiCall(() => axiosInstance.get(`/guards/${id}`)),
@@ -147,14 +134,12 @@ const api = {
     update: (id, data) => handleApiCall(() => axiosInstance.put(`/guards/${id}`, data)),
     delete: (id) => handleApiCall(() => axiosInstance.delete(`/guards/${id}`)),
   },
-
   services: {
     getAll: () => handleApiCall(() => axiosInstance.get('/services')),
     create: (data) => handleApiCall(() => axiosInstance.post('/services', data)),
     update: (id, data) => handleApiCall(() => axiosInstance.put(`/services/${id}`, data)),
     delete: (id) => handleApiCall(() => axiosInstance.delete(`/services/${id}`)),
   },
-
   invoices: {
     getAll: () => handleApiCall(() => axiosInstance.get('/invoices')),
     getById: (id) => handleApiCall(() => axiosInstance.get(`/invoices/${id}`)),
@@ -162,20 +147,17 @@ const api = {
     update: (id, data) => handleApiCall(() => axiosInstance.put(`/invoices/${id}`, data)),
     delete: (id) => handleApiCall(() => axiosInstance.delete(`/invoices/${id}`)),
   },
-
   incidents: {
     getAll: () => handleApiCall(() => axiosInstance.get('/incident_reports')),
     create: (data) => handleApiCall(() => axiosInstance.post('/incident_reports', data)),
     update: (id, data) => handleApiCall(() => axiosInstance.put(`/incident_reports/${id}`, data)),
     delete: (id) => handleApiCall(() => axiosInstance.delete(`/incident_reports/${id}`)),
   },
-
   contact_messages: {
-    getAll: () => handleApiCall(() => axiosInstance.get('/contact_messages')),
-    create: (data) => handleApiCall(() => axiosInstance.post('/contact_messages', data)),
-    delete: (id) => handleApiCall(() => axiosInstance.delete(`/contact_messages/${id}`)),
+    getAll: () => handleApiCall(() => axiosInstance.get('/contacts')),
+    create: (data) => handleApiCall(() => axiosInstance.post('/contacts/register', data)),
+    delete: (id) => handleApiCall(() => axiosInstance.delete(`/contacts/${id}`)),
   },
-
   duty_schedules: {
     getAll: () => handleApiCall(() => axiosInstance.get('/duty_schedules')),
     getById: (id) => handleApiCall(() => axiosInstance.get(`/duty_schedules/${id}`)),
@@ -184,6 +166,19 @@ const api = {
     delete: (id) => handleApiCall(() => axiosInstance.delete(`/duty_schedules/${id}`)),
   },
 
+    home: {
+    get: () => handleApiCall(() => axiosInstance.get('/home/')),
+    update: (data) => handleApiCall(() => axiosInstance.put('/home/', data))
+  },
+
+  //  Career endpoints
+  career: {
+    getAll: () => handleApiCall(() => axiosInstance.get('/careers/')),  // Get all job postings
+    addJob: (data) => handleApiCall(() => axiosInstance.post('/careers/add', data)), // Add a new job
+    apply: (formData) => handleApiCall(() => axiosInstance.post('/careers/apply', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' } 
+    })), 
+  },
   checkHealth: () => handleApiCall(() => axiosInstance.get('/health')),
   getServerTime: () => handleApiCall(() => axiosInstance.get('/time')),
   clearCache: () => handleApiCall(() => axiosInstance.delete('/cache')),

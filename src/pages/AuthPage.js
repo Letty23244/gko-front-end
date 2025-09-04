@@ -17,8 +17,8 @@ const AuthPage = () => {
     setError(null);
 
     try {
-      // ✅ Use api.admin.login from the centralized API service
-      const res = await api.admin.login({
+      
+       const res = await api.auth.login({
         emailAddress: email,
         password: password,
       });

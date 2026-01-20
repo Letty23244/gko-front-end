@@ -1,98 +1,146 @@
-.hero-carousel-wrapper {
-  position: relative;
-  height: 90vh;
-  overflow: hidden;
-}
+.hero-section {
+          position: relative;
+          overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        
+        /* New Carousel Wrapper Styles */
+        .hero-carousel-wrapper {
+            position: relative;
+            height: 90vh; /* Set clear height */
+            overflow: hidden;
+        }
+        
+        /* New Background and Animation Styles */
+        .carousel-bg {
+            height: 90vh;
+            background-size: cover;
+            background-position: center;
+            transition: transform 6s ease;
+            filter: brightness(0.5); /* Darken for high text contrast */
+        }
 
-.carousel-bg {
-  height: 90vh;
-  background-size: cover;
-  background-position: center;
-  transition: transform 6s ease;
-}
+        .zoom {
+            animation: zoomEffect 10s infinite ease-in-out;
+        }
 
-.zoom {
-  animation: zoomEffect 10s infinite ease-in-out;
-}
+        @keyframes zoomEffect {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
 
-@keyframes zoomEffect {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.08);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+        /* New Central Overlay Styles */
+        .hero-overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            z-index: 10;
+            text-shadow: 1px 1px 4px #000;
+            text-align: center;
+        }
 
-.hero-overlay-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  z-index: 10;
-  text-shadow: 1px 1px 4px #000;
-}
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: white;
+        }
 
-.hero-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: white;
-}
+        .hero-subtitle {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: auto;
+            color: white;
+            line-height: 1.6;
+        }
 
-.hero-subtitle {
-  font-size: 1.25rem;
-  max-width: 800px;
-  margin: auto;
-  color: white;
-  line-height: 1.6;
-}
+        .hero-btn {
+            margin-top: 1.5rem;
+            padding: 0.75rem 2rem;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.3s;
+        }
 
-.hero-btn {
-  margin-top: 1.5rem;
-  padding: 0.75rem 2rem;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  display: inline-block;
-  transition: background-color 0.3s ease;
-}
+        .hero-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
 
-.hero-btn:hover {
-  background-color: #0056b3;
-}
+        /* New Carousel Caption (Slide specific text) Styles */
+        .carousel-caption {
+            position: absolute;
+            bottom: 20%;
+            left: 8%;
+            background: rgba(0, 0, 0, 0.6); /* darker background for contrast */
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9); /* strong text outline */
+            max-width: 70%;
+            backdrop-filter: blur(4px); /* nice glass effect */
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            /* Resetting Bootstrap defaults */
+            right: auto;
+            top: auto;
+        }
 
-.carousel-bg {
-  height: 90vh;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
+        .carousel-caption h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
 
-.carousel-caption {
-    position: absolute;
-  bottom: 20%;
-  left: 8%;
-  background: rgba(0, 0, 0, 0.6); /* darker background for contrast */
-  padding: 1.5rem 2rem;
-  border-radius: 12px;
-  color: #fff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9); /* strong text outline */
-  max-width: 70%;
-  backdrop-filter: blur(4px); /* nice glass effect */
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-}
+        .carousel-caption p {
+            font-size: 1.2rem;
+            margin-bottom: 0;
+        }
 
-.carousel-caption h2 {
-  font-size: 2.5rem;
-  font-weight: bold;
-}
+        /* Responsive adjustments for caption */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .carousel-caption {
+                bottom: 5%;
+                left: 50%;
+                transform: translateX(-50%);
+                max-width: 90%;
+                padding: 1rem;
+                text-align: center;
+            }
+            .carousel-caption h2 { font-size: 1.5rem; }
+            .carousel-caption p { font-size: 0.9rem; }
+            .hero-carousel-wrapper, .carousel-bg { height: 75vh; }
+        }
 
-.carousel-caption p {
-  font-size: 1.2rem;
-}
+        /* Services and Testimonials (retained for completeness) */
+        .service-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            border-radius: 12px;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .service-card .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .testimonial-card {
+            background-color: #f8f9fa;
+            border-left: 5px solid #007bff;
+        }

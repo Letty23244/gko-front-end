@@ -1,49 +1,68 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import LoginModal from "./LoginModal";
-import "./navbar.css";
-import gko from "../assets/gko.jpg";
+import { Link } from "react-router-dom";
 
-export default function Navbar() {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+const Navbar = () => {
+  const colors = {
+    navy: "#2b2f4a",
+    cream: "#e6e8c9"
+  };
+
+  const styles = {
+    nav: {
+      background: colors.cream, // Main Cream Background
+      padding: "25px 40px",
+      display: "flex",
+      flexDirection: "column", // Stack Logo above Nav for a luxury feel
+      alignItems: "center",
+      gap: "20px",
+      borderBottom: `1px solid rgba(43, 47, 74, 0.1)`, // Subtle navy divider
+    },
+    logo: {
+      color: colors.navy,
+      fontSize: "24px",
+      fontWeight: "bold",
+      letterSpacing: "4px",
+      margin: 0,
+      textDecoration: "none"
+    },
+    ul: {
+      display: "flex",
+      listStyle: "none",
+      gap: "30px",
+      margin: 0,
+      padding: 0,
+    },
+    link: {
+      textDecoration: "none",
+      color: colors.navy,
+      fontSize: "13px",
+      fontWeight: "600",
+      letterSpacing: "1px",
+      transition: "opacity 0.3s ease"
+    }
+  };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-left">
-        <div className="logo">
-          <img src={gko} alt="GKO Logo" className="logo-img" />
-          <span className="company-name">GKO Security Ltd</span>
-        </div>
-      </div>
+    <nav style={styles.nav}>
+      <Link to="/" style={styles.logo}>
+        HOTEL JUSTINOS
+      </Link>
 
-      <div className="navbar-right">
-        <ul className="nav-menu">
-          <li><NavLink to="/" end>Home</NavLink></li>
-          <li><NavLink to="/about_us">About Us</NavLink></li>
-          <li
-            className="dropdown"
-            onMouseEnter={() => setShowDropdown(true)}
-            onMouseLeave={() => setShowDropdown(false)}
-          >
-            <NavLink to="/services" className="nav-link">Services ▾</NavLink>
-            {showDropdown && (
-              <ul className="dropdown-menu">
-                <li><NavLink to="/services/cctv">CCTV Installation</NavLink></li>
-                <li><NavLink to="/services/alarm">Alarm Response</NavLink></li>
-                <li><NavLink to="/services/guards">Guard Services</NavLink></li>
-              </ul>
-            )}
+      <ul style={styles.ul}>
+        {["ACCOMMODATION", "DINING", "EXPERIENCES", "OFFERS", "MEETINGS", "SPA & WELLNESS", "CONTACT"].map((item) => (
+          <li key={item}>
+            <Link 
+              to={`/${item.toLowerCase().replace(/ & /g, "-")}`} 
+              style={styles.link}
+              onMouseOver={(e) => e.target.style.opacity = "0.7"}
+              onMouseOut={(e) => e.target.style.opacity = "1"}
+            >
+              {item}
+            </Link>
           </li>
-          <li><NavLink to="/contact">Contact Us</NavLink></li>
-          <li><NavLink to="/careers">Career</NavLink></li>
-          <li>
-            <button className="btn-login" onClick={() => setShowLoginModal(true)}>Login</button>
-          </li>
-        </ul>
-      </div>
-
-      <LoginModal show={showLoginModal} handleClose={() => setShowLoginModal(false)} />
+        ))}
+      </ul>
     </nav>
   );
-}
+};
+
+export default Navbar;

@@ -9,7 +9,6 @@
   text-align: center;
 }
 
-/* Dark overlay so the text pops */
 .hero::before {
   content: "";
   position: absolute;

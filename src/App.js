@@ -1,68 +1,52 @@
-import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Hero from "./components/HeroSection";
+import TopBar from './components/TopBar';
 import Footer from "./components/footer";
-import AboutPage from "./pages/about_us";
-import ServicesPage from "./pages/services";
-import ContactUs from "./pages/ContactUs";
-import CareerPage from "./pages/CareerPage";
-import AuthPage from './pages/AuthPage'; 
-import ProtectedRoute from './dashboard/component/ProtectedRoute';
-import DashboardLayout from "./dashboard/DashboardLayout";
-import DashboardHome from "./dashboard/page/dashboardHome";
-import DutySchedule from "./dashboard/component/DutySchedule";
-import ClientManagement from "./dashboard/page/clientPage";
-import GuardManagement from "./dashboard/page/guardPage";
-import AdminManagement from "./dashboard/page/AdminManagement";
-import IncidentPage from './dashboard/page/IncidentPage';
-import ReportAnalytics from "./dashboard/page/reportPage";
-import Invoices from './dashboard/page/InvoicePage';
-import ServiceManagement from './dashboard/page/ServiceManagement';
-import SettingsPage from './dashboard/page/SettingPage';
+import AccommodationPage from "./pages/Accomodation";
+import DiningPage from "./pages/Dining";
+// import ServicesPage from "./pages/Services";
+// import ContactUs from "./pages/ContactUs";
+// import AuthPage from './pages/AuthPage'; 
+// import ProtectedRoute from './dashboard/component/ProtectedRoute';
+// import DashboardLayout from "./dashboard/DashboardLayout";
+// import DashboardHome from "./dashboard/page/DashboardHome";
+// import DutySchedule from "./dashboard/component/DutySchedule";
+// import ClientManagement from "./dashboard/page/ClientPage";
+// import GuardManagement from "./dashboard/page/GuardPage";
+// import AdminManagement from "./dashboard/page/AdminManagement";
+// import IncidentPage from './dashboard/page/IncidentPage';
+// import ReportAnalytics from "./dashboard/page/ReportPage";
+// import Invoices from './dashboard/page/InvoicePage';
+// import ServiceManagement from './dashboard/page/ServiceManagement';
+// import SettingsPage from './dashboard/page/SettingPage';
 
-import api from './Api/Api';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+// import BookingCard from "./components/BookingCard";
 
 function AppContent() {
   const location = useLocation();
   const isDashboardRoute = location.pathname.startsWith("/dashboard");
 
-  useEffect(() => {
-    const fetchAdmins = async () => {
-      try {
-        const res = await api.admin.getAll();
-        if (res.success) {
-          console.log("✅ Admins fetched:", res.data);
-        } else {
-          console.error("❌ Failed to fetch admins:", res.error);
-        }
-      } catch (err) {
-        console.error("❌ Error fetching admins:", err);
-      }
-    };
-
-    if (isDashboardRoute) {
-      fetchAdmins();
-    }
-  }, [isDashboardRoute]);
-
   return (
     <div className="App">
+      {/* Show navbar and topbar only for public pages */}
       {!isDashboardRoute && <Navbar />}
+      {!isDashboardRoute && <TopBar />}
+       {/* {!isDashboardRoute && <BookingCard/>} */}
 
       <Routes>
         {/* Public pages */}
         <Route path="/" element={<Hero />} />
-        <Route path="/about_us" element={<AboutPage />} />
-        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/accommodation" element={<AccommodationPage />} />
+        <Route path="/dining" element={<DiningPage />} />
+        {/* <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/careers" element={<CareerPage />} />
         <Route path="/login" element={<AuthPage />} />
 
         {/* Protected Dashboard routes */}
-        <Route
+        {/* <Route
           path="/dashboard/*"
           element={
             <ProtectedRoute>
@@ -83,9 +67,10 @@ function AppContent() {
         </Route>
 
         {/* Catch-all */}
-        <Route path="*" element={<h1>404 Not Found</h1>} />
-      </Routes>
+        {/* <Route path="*" element={<h1>404 Not Found</h1>} /> */}
+      </Routes> 
 
+      {/* Show footer only for public pages */}
       {!isDashboardRoute && <Footer />}
     </div>
   );

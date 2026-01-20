@@ -1,39 +1,29 @@
 // src/pages/Dining.js
 import React from "react";
-import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
-import "../pages/dining.css"; // optional, create for custom styles
+import { Container, Row, Col, Button } from "react-bootstrap";
+import "../pages/dining.css";
 
-// Import placeholder images (replace with your hotel images later)
 import dining1 from "../assets/dining1.jpg";
 import dining2 from "../assets/dining2.jpg";
 import dining3 from "../assets/dining3.jpg";
 import dining4 from "../assets/dining4.jpg";
 
 export default function DiningPage() {
-  const menuItems = [
+  const signatureDishes = [
     {
       image: dining1,
-      title: "Grilled Tilapia",
-      description: "Served with lemon butter sauce and seasonal vegetables.",
-      price: "$12",
+      title: "Grilled Lake Tilapia",
+      description: "Freshly sourced, delicately seasoned, and grilled to perfection.",
     },
     {
       image: dining2,
-      title: "Beef Steak",
-      description: "Juicy prime beef with garlic mashed potatoes.",
-      price: "$18",
+      title: "Prime Beef Steak",
+      description: "Tender cuts served with herb butter and seasonal accompaniments.",
     },
     {
       image: dining3,
-      title: "Vegetarian Pasta",
-      description: "Fresh vegetables with homemade tomato sauce.",
-      price: "$10",
-    },
-    {
-      image: dining4,
-      title: "Chocolate Lava Cake",
-      description: "Rich and molten chocolate cake with vanilla ice cream.",
-      price: "$7",
+      title: "Garden Vegetarian Pasta",
+      description: "A vibrant blend of fresh vegetables in a light tomato reduction.",
     },
   ];
 
@@ -41,99 +31,88 @@ export default function DiningPage() {
 
   return (
     <div className="dining-page">
-      {/* Hero Section */}
-      <div
-        className="dining-hero text-center text-white d-flex align-items-center justify-content-center"
+      {/* HERO */}
+      <section
+        className="dining-hero"
         style={{
-          backgroundImage: `url(${dining1})`,
-          height: "60vh",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundImage: `linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url(${dining1})`,
         }}
       >
-        <div>
-          <h1 className="display-3 fw-bold">Savor Culinary Excellence</h1>
-          <p className="lead">Fine dining, casual dining, and everything in between</p>
-          <Button href="/contact" variant="light" size="lg">
+        <div className="hero-content">
+          <h1>Exquisite Dining</h1>
+          <p>A refined culinary journey at Hotel Justino</p>
+          <Button size="lg" variant="light" href="/contact">
             Reserve a Table
           </Button>
         </div>
-      </div>
+      </section>
 
-      <Container className="py-16">
-        {/* Overview */}
-        <section className="mb-16 text-center">
-          <h2 className="mb-4">Welcome to Hotel Justino Restaurant</h2>
-          <p className="lead text-muted max-w-3xl mx-auto">
-            At Hotel Justino, our restaurant offers a blend of traditional Ugandan flavors and international cuisine.
-            Enjoy breakfast, lunch, and dinner in a modern, elegant dining space with spectacular views of Kampala.
-            We pride ourselves on excellent service, fresh ingredients, and an unforgettable culinary experience.
+      <Container className="py-5">
+        {/* INTRO */}
+        <section className="intro-section text-center">
+          <p className="intro-text">
+            At Hotel Justino, dining is more than a meal — it is an experience.
+            Our chefs blend authentic local flavors with international cuisine,
+            offering thoughtfully crafted dishes served in an atmosphere of
+            comfort, elegance, and warm hospitality.
           </p>
         </section>
 
-        {/* Menu Highlights */}
-        <section className="mb-16">
-          <h2 className="text-center mb-12">Our Menu Highlights</h2>
-          <Row>
-            {menuItems.map((item, index) => (
-              <Col md={6} lg={3} key={index} className="mb-4">
-                <Card className="h-100 shadow-sm rounded-3xl border-0">
-                  <Card.Img variant="top" src={item.image} className="rounded-top-3xl" />
-                  <Card.Body className="text-center">
-                    <Card.Title>{item.title}</Card.Title>
-                    <Card.Text>{item.description}</Card.Text>
-                    <Badge bg="success" className="p-2">{item.price}</Badge>
-                  </Card.Body>
-                </Card>
+        {/* RESTAURANT EXPERIENCE */}
+        <section className="venue-section">
+          <Row className="align-items-center mb-5">
+            <Col md={6}>
+              <img src={dining2} alt="Restaurant" className="venue-image" />
+            </Col>
+            <Col md={6}>
+              <h2>Main Restaurant</h2>
+              <p>
+                Our signature restaurant offers breakfast, lunch, and dinner in
+                a serene and elegant setting. Whether enjoying a quiet morning
+                meal or an intimate evening dinner, guests are treated to
+                exceptional service and exquisite flavors.
+              </p>
+            </Col>
+          </Row>
+        </section>
+
+        {/* SIGNATURE DISHES */}
+        <section className="signature-section">
+          <h2 className="section-title text-center">Signature Creations</h2>
+          <Row className="mt-4">
+            {signatureDishes.map((dish, index) => (
+              <Col md={4} key={index}>
+                <div className="signature-card">
+                  <img src={dish.image} alt={dish.title} />
+                  <h4>{dish.title}</h4>
+                  <p>{dish.description}</p>
+                </div>
               </Col>
             ))}
           </Row>
         </section>
 
-        {/* Chef's Recommendations */}
-        <section className="mb-16 text-center">
-          <h2 className="mb-6">Chef’s Recommendations</h2>
-          <p className="lead text-muted max-w-2xl mx-auto">
-            Our chefs carefully select the best dishes each week. Enjoy seasonal specials and must-try creations.
-          </p>
-          <Row className="mt-8 justify-content-center">
-            {menuItems.slice(0, 2).map((item, index) => (
-              <Col md={5} key={index} className="mb-4">
-                <Card className="h-100 shadow-lg border-0">
-                  <Card.Img variant="top" src={item.image} className="rounded-top-3xl" />
-                  <Card.Body className="text-center">
-                    <Card.Title>{item.title}</Card.Title>
-                    <Card.Text>{item.description}</Card.Text>
-                    <Badge bg="warning" className="p-2">Chef's Special</Badge>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </section>
-
-        {/* Dining Gallery */}
-        <section className="mb-16">
-          <h2 className="text-center mb-12">Gallery</h2>
-          <Row className="g-4">
+        {/* GALLERY */}
+        <section className="gallery-section">
+          <h2 className="section-title text-center">Dining Gallery</h2>
+          <Row className="g-4 mt-3">
             {galleryImages.map((img, index) => (
               <Col md={3} sm={6} key={index}>
-                <Card className="border-0 shadow-sm rounded-3xl overflow-hidden">
-                  <Card.Img variant="top" src={img} className="hover-scale transition-transform duration-500" />
-                </Card>
+                <img src={img} alt="Dining" className="gallery-img" />
               </Col>
             ))}
           </Row>
         </section>
 
-        {/* Reservation CTA */}
-        <section className="text-center mb-16">
-          <h2 className="mb-4">Reserve Your Table Today</h2>
-          <p className="lead mb-6">
-            Call or email us to book a table for an unforgettable dining experience at Hotel Justino.
+        {/* CTA */}
+        <section className="reservation-section text-center">
+          <h2>Reserve Your Dining Experience</h2>
+          <p>
+            Join us for an unforgettable culinary experience in an atmosphere of
+            elegance and tranquility.
           </p>
-          <Button href="/contact" variant="primary" size="lg">
-            Reserve Now
+          <Button size="lg" variant="dark" href="/contact">
+            Book a Table
           </Button>
         </section>
       </Container>

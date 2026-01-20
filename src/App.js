@@ -5,21 +5,12 @@ import TopBar from './components/TopBar';
 import Footer from "./components/footer";
 import AccommodationPage from "./pages/Accomodation";
 import DiningPage from "./pages/Dining";
+import ExperiencePage from "./pages/Experience";
+import OffersPage from "./pages/Offer";
 // import ServicesPage from "./pages/Services";
-// import ContactUs from "./pages/ContactUs";
+import ContactUs from "./pages/ContactUs";
 // import AuthPage from './pages/AuthPage'; 
-// import ProtectedRoute from './dashboard/component/ProtectedRoute';
-// import DashboardLayout from "./dashboard/DashboardLayout";
-// import DashboardHome from "./dashboard/page/DashboardHome";
-// import DutySchedule from "./dashboard/component/DutySchedule";
-// import ClientManagement from "./dashboard/page/ClientPage";
-// import GuardManagement from "./dashboard/page/GuardPage";
-// import AdminManagement from "./dashboard/page/AdminManagement";
-// import IncidentPage from './dashboard/page/IncidentPage';
-// import ReportAnalytics from "./dashboard/page/ReportPage";
-// import Invoices from './dashboard/page/InvoicePage';
-// import ServiceManagement from './dashboard/page/ServiceManagement';
-// import SettingsPage from './dashboard/page/SettingPage';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -41,9 +32,10 @@ function AppContent() {
         <Route path="/" element={<Hero />} />
         <Route path="/accommodation" element={<AccommodationPage />} />
         <Route path="/dining" element={<DiningPage />} />
-        {/* <Route path="/services" element={<ServicesPage />} />
+        <Route path="/experienceS" element={<ExperiencePage />} />
+        <Route path="/offers" element={<OffersPage />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/login" element={<AuthPage />} />
+        
 
         {/* Protected Dashboard routes */}
         {/* <Route

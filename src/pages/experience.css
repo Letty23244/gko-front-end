@@ -1,0 +1,56 @@
+.experience-hero {
+  height: 85vh;
+}
+
+.hero-slide {
+  height: 85vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+}
+
+.intro-text {
+  max-width: 800px;
+}
+
+.experience-card .card-image {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.experience-card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s ease;
+}
+
+.gallery-image {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  transition: transform 0.4s ease;
+}
+
+.gallery-image:hover {
+  transform: scale(1.05);
+}
+
+.featured-experience img {
+  width: 100%;
+}
